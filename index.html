@@ -3,71 +3,432 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>نظام مجمع حلق تحفيظ القرآن</title>
+  <title>نظام مجمع الحلق</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#0d6efd;
+      --primary-dark:#0b5ed7;
+      --soft:#f5f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --success:#198754;
+      --warning:#ffc107;
+      --danger:#dc3545;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Cairo", sans-serif;
+      background:linear-gradient(180deg,#f8fbff 0%, #f3f6fb 100%);
+      color:var(--text);
+    }
+
+    .navbar-brand{
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    .hero{
+      padding:48px 0 28px;
+      background:
+        radial-gradient(circle at top right, rgba(13,110,253,.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(25,135,84,.10), transparent 24%);
+    }
+
+    .hero-card,
+    .panel-card,
+    .table-card,
+    .kpi-card{
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:20px;
+      box-shadow:0 12px 32px rgba(15,23,42,.06);
+    }
+
+    .hero-card{
+      padding:28px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(13,110,253,.08);
+      color:var(--primary-dark);
+      font-size:.9rem;
+      font-weight:700;
+      margin-bottom:16px;
+    }
+
+    .hero-title{
+      font-size:2rem;
+      font-weight:800;
+      margin-bottom:12px;
+      line-height:1.5;
+    }
+
+    .hero-desc{
+      color:var(--muted);
+      line-height:1.9;
+      margin-bottom:22px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .quick-card{
+      height:100%;
+      padding:20px;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:0 10px 24px rgba(15,23,42,.05);
+      transition:.2s ease;
+    }
+
+    .quick-card:hover{
+      transform:translateY(-2px);
+    }
+
+    .quick-icon{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.2rem;
+      background:rgba(13,110,253,.08);
+      color:var(--primary);
+      margin-bottom:14px;
+    }
+
+    .section-space{
+      padding:22px 0 42px;
+    }
+
+    .section-title{
+      font-size:1.35rem;
+      font-weight:800;
+      margin-bottom:18px;
+    }
+
+    .panel-card{
+      padding:22px;
+    }
+
+    .table-card{
+      padding:20px;
+    }
+
+    .form-label{
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .form-control,
+    .form-select{
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid #d7deea;
+    }
+
+    .form-control:focus,
+    .form-select:focus{
+      box-shadow:0 0 0 .2rem rgba(13,110,253,.12);
+      border-color:#86b7fe;
+    }
+
+    textarea.form-control{
+      min-height:110px;
+    }
+
+    .small-muted{
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .data-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:14px;
+      margin-top:8px;
+    }
+
+    .data-item{
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .data-item .label{
+      font-size:.85rem;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .data-item .value{
+      font-size:1rem;
+      font-weight:700;
+      color:var(--text);
+      word-break:break-word;
+    }
+
+    .kpi-card{
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+      min-height:132px;
+    }
+
+    .bg-icon-float{
+      position:absolute;
+      left:18px;
+      top:14px;
+      opacity:.08;
+      font-size:3rem;
+      line-height:1;
+    }
+
+    .kpi-label{
+      color:var(--muted);
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .kpi-value{
+      font-size:2rem;
+      font-weight:800;
+      line-height:1.2;
+    }
+
+    .staff-shell{
+      background:#fff;
+      border-radius:22px;
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:0 16px 34px rgba(15,23,42,.06);
+      overflow:hidden;
+    }
+
+    .staff-head{
+      padding:22px;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(90deg, rgba(13,110,253,.06), rgba(25,135,84,.04));
+    }
+
+    .staff-body{
+      padding:22px;
+    }
+
+    .nav-pills .nav-link{
+      border-radius:14px;
+      font-weight:700;
+      color:#334155;
+      padding:.8rem 1rem;
+    }
+
+    .nav-pills .nav-link.active{
+      background:var(--primary);
+    }
+
+    .tab-pane-custom{
+      margin-top:20px;
+    }
+
+    .table thead th{
+      white-space:nowrap;
+      font-weight:800;
+      font-size:.92rem;
+      background:#f8fafc;
+    }
+
+    .table td, .table th{
+      vertical-align:middle;
+    }
+
+    .footer-note{
+      color:var(--muted);
+      font-size:.9rem;
+      text-align:center;
+      padding:22px 0 30px;
+    }
+
+    .btn{
+      border-radius:14px;
+      font-weight:700;
+      min-height:44px;
+    }
+
+    .btn-lg{
+      min-height:50px;
+      padding-inline:18px;
+    }
+
+    .view-section.d-none{
+      display:none !important;
+    }
+
+    @media (max-width: 767.98px){
+      .hero-title{
+        font-size:1.55rem;
+      }
+      .hero-card{
+        padding:22px;
+      }
+      .staff-head,
+      .staff-body,
+      .panel-card,
+      .table-card{
+        padding:16px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm sticky-top">
+
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold text-primary" href="#/home">
-        <i class="fa-solid fa-book-quran me-2"></i>
-        نظام مجمع حلق التحفيظ
+      <a class="navbar-brand" href="#/home">
+        <i class="fa-solid fa-book-quran text-primary ms-2"></i>
+        نظام مجمع الحلق
       </a>
-      <div class="d-flex gap-2 align-items-center">
-        <button id="openStaffLoginBtn" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-lock-open me-1"></i>بوابة العاملين</button>
-        <button id="logoutBtn" class="btn btn-outline-danger btn-sm d-none"><i class="fa-solid fa-right-from-bracket me-1"></i>خروج</button>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#/home">الرئيسية</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/register">تسجيل طالب جديد</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/student-data">بيانات الطالب</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/staff">بوابة العاملين</a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 me-lg-3">
+          <button class="btn btn-primary btn-sm" id="openStaffLoginBtn">
+            <i class="fa-solid fa-right-to-bracket ms-1"></i>
+            دخول العاملين
+          </button>
+          <button class="btn btn-outline-danger btn-sm d-none" id="logoutBtn">
+            <i class="fa-solid fa-arrow-right-from-bracket ms-1"></i>
+            تسجيل الخروج
+          </button>
+        </div>
       </div>
     </div>
   </nav>
 
-  <main class="container py-4">
+  <main>
+    <!-- الصفحة الرئيسية -->
     <section id="homeView" class="view-section">
-      <div class="row g-4 align-items-center mb-4">
-        <div class="col-lg-7">
-          <div class="hero-card p-4 p-lg-5">
-            <div class="badge bg-primary-subtle text-primary mb-3">GitHub Pages + Google Apps Script + Google Sheets</div>
-            <h1 class="display-6 fw-bold mb-3">منصة تشغيلية لمجمع حلق تحفيظ القرآن</h1>
-            <p class="lead text-muted mb-4">نسخة عملية جاهزة للبداية، تشمل التسجيل والقبول، الاستعلام عن بيانات الطالب، ودخول العاملين مع صلاحيات وجلسات وسجل عمليات.</p>
-            <div class="d-flex flex-wrap gap-2">
-              <a href="#register" class="btn btn-primary btn-lg"><i class="fa-solid fa-user-plus me-2"></i>تسجيل طالب جديد</a>
-              <a href="#student-data" class="btn btn-outline-primary btn-lg"><i class="fa-solid fa-id-card me-2"></i>بيانات الطالب</a>
+      <div class="hero">
+        <div class="container">
+          <div class="hero-card">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-7">
+                <div class="hero-badge">
+                  <i class="fa-solid fa-shield-heart"></i>
+                  منصة إدارية وتعليمية للمجمع
+                </div>
+                <h1 class="hero-title">إدارة تسجيل الطلاب والبيانات والإنذارات والعاملين في مكان واحد</h1>
+                <p class="hero-desc">
+                  نظام مبسط يخدم المجمع في استقبال طلبات التسجيل، إدارة بيانات الطلاب،
+                  متابعة الإنذارات التعليمية والإدارية، وتنظيم أعمال المشرفين والمعلمين والإدارة.
+                </p>
+                <div class="hero-actions">
+                  <a href="#/register" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-user-plus ms-1"></i>
+                    تسجيل طالب جديد
+                  </a>
+                  <a href="#/student-data" class="btn btn-outline-primary btn-lg">
+                    <i class="fa-solid fa-id-card ms-1"></i>
+                    استعراض بيانات الطالب
+                  </a>
+                  <button class="btn btn-outline-dark btn-lg" id="openStaffLoginBtn2" type="button">
+                    <i class="fa-solid fa-users-gear ms-1"></i>
+                    بوابة العاملين
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="quick-card">
+                      <div class="quick-icon"><i class="fa-solid fa-inbox"></i></div>
+                      <h5 class="fw-bold">استقبال الطلبات</h5>
+                      <div class="small-muted">تسجيل الطلاب الجدد ومتابعة طلباتهم ومراجعتها واعتمادها.</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="quick-card">
+                      <div class="quick-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                      <h6 class="fw-bold">بيانات الطلاب</h6>
+                      <div class="small-muted">عرض البيانات وطلب التعديل.</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="quick-card">
+                      <div class="quick-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                      <h6 class="fw-bold">الإنذارات</h6>
+                      <div class="small-muted">تعليمية وإدارية مع متابعة الحالة.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="row g-3">
-            <div class="col-6">
-              <div class="kpi-card">
-                <div class="bg-icon-float"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="kpi-label">تحسينات أساسية</div>
-                <div class="kpi-value">أمان وصلاحيات</div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-md-4">
+              <div class="quick-card h-100">
+                <div class="quick-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <h5 class="fw-bold">بوابة التسجيل والقبول</h5>
+                <p class="small-muted mb-0">تسجيل الطالب وبيانات ولي الأمر وإرسال الطلب للإدارة للمراجعة والاعتماد.</p>
               </div>
             </div>
-            <div class="col-6">
-              <div class="kpi-card">
-                <div class="bg-icon-float"><i class="fa-solid fa-list-check"></i></div>
-                <div class="kpi-label">سجل تدقيق</div>
-                <div class="kpi-value">Audit Log</div>
+            <div class="col-md-4">
+              <div class="quick-card h-100">
+                <div class="quick-icon"><i class="fa-solid fa-address-card"></i></div>
+                <h5 class="fw-bold">بوابة بيانات الطالب</h5>
+                <p class="small-muted mb-0">الاستعلام عن بيانات الطالب باستخدام رقم الهوية ورفع طلب تعديل عند الحاجة.</p>
               </div>
             </div>
-            <div class="col-6">
-              <div class="kpi-card">
-                <div class="bg-icon-float"><i class="fa-solid fa-id-badge"></i></div>
-                <div class="kpi-label">معرّفات فريدة</div>
-                <div class="kpi-value">IDs ثابتة</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="kpi-card">
-                <div class="bg-icon-float"><i class="fa-solid fa-people-roof"></i></div>
-                <div class="kpi-label">بوابات متعددة</div>
-                <div class="kpi-value">طلاب + عاملين</div>
+            <div class="col-md-4">
+              <div class="quick-card h-100">
+                <div class="quick-icon"><i class="fa-solid fa-users-gear"></i></div>
+                <h5 class="fw-bold">بوابة العاملين</h5>
+                <p class="small-muted mb-0">لوحة تحكم للإدارة والمشرفين والمعلمين حسب الصلاحيات الممنوحة لكل مستخدم.</p>
               </div>
             </div>
           </div>
@@ -75,96 +436,251 @@
       </div>
     </section>
 
+    <!-- تسجيل طالب -->
     <section id="registerView" class="view-section d-none">
-      <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-4">
-          <h2 class="section-title"><i class="fa-solid fa-user-plus text-primary me-2"></i>بوابة التسجيل والقبول</h2>
-          <form id="registrationForm" class="row g-3 mt-1">
-            <div class="col-md-6"><label class="form-label">اسم الطالب ثلاثي *</label><input name="studentName" class="form-control" required></div>
-            <div class="col-md-3"><label class="form-label">هوية الطالب *</label><input name="studentId" class="form-control" inputmode="numeric" required></div>
-            <div class="col-md-3"><label class="form-label">رقم جوال الطالب</label><input name="studentPhone" class="form-control" inputmode="numeric"></div>
-            <div class="col-md-4"><label class="form-label">تاريخ ميلاد الطالب *</label><input name="studentBirthDate" type="date" class="form-control" required></div>
-            <div class="col-md-4"><label class="form-label">المرحلة الدراسية *</label><select name="studentLevel" class="form-select" required><option value="">اختر</option><option>ابتدائي</option><option>متوسط</option><option>ثانوي</option><option>جامعي</option></select></div>
-            <div class="col-md-4"><label class="form-label">الصف الدراسي *</label><input name="studentGrade" class="form-control" required></div>
-            <div class="col-12"><label class="form-label">العنوان / الحي *</label><input name="studentAddress" class="form-control" required></div>
-            <div class="col-md-6"><label class="form-label">اسم ولي الأمر ثلاثي *</label><input name="guardianName" class="form-control" required></div>
-            <div class="col-md-3"><label class="form-label">رقم جوال ولي الأمر *</label><input name="guardianPhone" class="form-control" inputmode="numeric" required></div>
-            <div class="col-md-3"><label class="form-label">رقم هوية ولي الأمر *</label><input name="guardianId" class="form-control" inputmode="numeric" required></div>
-            <div class="col-md-4"><label class="form-label">صلة ولي الأمر *</label><select name="guardianRelationship" class="form-select" required><option value="">اختر</option><option>أب</option><option>أخ</option><option>عم</option><option>خال</option><option>غير ذلك</option></select></div>
-            <div class="col-md-8"><label class="form-label">ملاحظات</label><input name="notes" class="form-control"></div>
-            <div class="col-12 d-flex gap-2 justify-content-end mt-3">
-              <button class="btn btn-primary"><i class="fa-solid fa-paper-plane me-2"></i>إرسال الطلب</button>
-              <a href="#/home" class="btn btn-outline-secondary">عودة</a>
+      <div class="section-space">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-10">
+              <div class="panel-card">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+                  <div>
+                    <h2 class="section-title mb-1">تسجيل طالب جديد</h2>
+                    <div class="small-muted">يرجى تعبئة البيانات بدقة، وسيتم إرسال الطلب للإدارة للمراجعة.</div>
+                  </div>
+                </div>
+
+                <form id="registrationForm" class="row g-3">
+                  <div class="col-12">
+                    <h5 class="fw-bold mb-2">بيانات الطالب</h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">اسم الطالب ثلاثي</label>
+                    <input type="text" name="studentName" class="form-control" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">هوية الطالب</label>
+                    <input type="text" name="studentId" class="form-control" inputmode="numeric" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">رقم جوال الطالب</label>
+                    <input type="text" name="studentPhone" class="form-control" inputmode="numeric">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">تاريخ ميلاد الطالب</label>
+                    <input type="date" name="studentBirthDate" class="form-control" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">العنوان / الحي</label>
+                    <input type="text" name="studentAddress" class="form-control" required>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class="form-label">المرحلة الدراسية</label>
+                    <select name="studentLevel" class="form-select" required>
+                      <option value="">اختر المرحلة</option>
+                      <option>ابتدائي</option>
+                      <option>متوسط</option>
+                      <option>ثانوي</option>
+                      <option>جامعي</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class="form-label">الصف الدراسي</label>
+                    <select name="studentGrade" class="form-select" required>
+                      <option value="">اختر الصف</option>
+                      <option>الأول</option>
+                      <option>الثاني</option>
+                      <option>الثالث</option>
+                      <option>الرابع</option>
+                      <option>الخامس</option>
+                      <option>السادس</option>
+                      <option>الأول متوسط</option>
+                      <option>الثاني متوسط</option>
+                      <option>الثالث متوسط</option>
+                      <option>الأول ثانوي</option>
+                      <option>الثاني ثانوي</option>
+                      <option>الثالث ثانوي</option>
+                      <option>جامعي</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12 mt-4">
+                    <h5 class="fw-bold mb-2">بيانات ولي الأمر</h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">اسم ولي الأمر ثلاثي</label>
+                    <input type="text" name="guardianName" class="form-control" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">رقم جوال ولي الأمر</label>
+                    <input type="text" name="guardianPhone" class="form-control" inputmode="numeric" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">رقم هوية ولي الأمر</label>
+                    <input type="text" name="guardianId" class="form-control" inputmode="numeric" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">صلة ولي الأمر</label>
+                    <select name="guardianRelation" class="form-select" required>
+                      <option value="">اختر الصلة</option>
+                      <option>أب</option>
+                      <option>أخ</option>
+                      <option>عم</option>
+                      <option>خال</option>
+                      <option>غير ذلك</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">ملاحظات إضافية</label>
+                    <textarea name="notes" class="form-control" placeholder="أي ملاحظات إضافية إن وجدت"></textarea>
+                  </div>
+
+                  <div class="col-12 pt-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      <i class="fa-solid fa-paper-plane ms-1"></i>
+                      إرسال الطلب
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- بيانات الطالب -->
     <section id="studentDataView" class="view-section d-none">
-      <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-4">
-          <h2 class="section-title"><i class="fa-solid fa-id-card text-primary me-2"></i>بوابة بيانات الطالب</h2>
-          <form id="studentLookupForm" class="row g-3 mt-1">
-            <div class="col-md-5"><label class="form-label">هوية الطالب</label><input name="studentId" class="form-control" inputmode="numeric"></div>
-            <div class="col-md-5"><label class="form-label">أو رقم جوال ولي الأمر</label><input name="guardianPhone" class="form-control" inputmode="numeric"></div>
-            <div class="col-md-2 d-grid align-items-end"><button class="btn btn-primary mt-4"><i class="fa-solid fa-magnifying-glass me-2"></i>بحث</button></div>
-          </form>
-          <div id="studentResult" class="mt-4"></div>
+      <div class="section-space">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-9">
+              <div class="panel-card mb-3">
+                <h2 class="section-title mb-1">بوابة بيانات الطالب</h2>
+                <div class="small-muted mb-4">أدخل رقم هوية الطالب لاستعراض البيانات الأساسية.</div>
+
+                <form id="studentLookupForm" class="row g-3 align-items-end">
+                  <div class="col-md-9">
+                    <label class="form-label">هوية الطالب</label>
+                    <input type="text" name="studentId" class="form-control" inputmode="numeric" placeholder="أدخل رقم الهوية" required>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">
+                      <i class="fa-solid fa-magnifying-glass ms-1"></i>
+                      استعراض البيانات
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div id="studentResult"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- بوابة العاملين -->
     <section id="staffView" class="view-section d-none">
-      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-        <div>
-          <h2 class="section-title mb-1"><i class="fa-solid fa-users-gear text-primary me-2"></i>لوحة العاملين</h2>
-          <div id="staffWelcome" class="text-muted small"></div>
+      <div class="section-space">
+        <div class="container">
+          <div class="staff-shell">
+            <div class="staff-head">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                  <h2 class="section-title mb-1">بوابة العاملين</h2>
+                  <div class="small-muted" id="staffWelcome">مرحبًا</div>
+                </div>
+                <div class="small-muted">
+                  لوحة تحكم حسب الصلاحيات
+                </div>
+              </div>
+            </div>
+
+            <div class="staff-body">
+              <div class="row g-3 mb-2" id="dashboardStats"></div>
+
+              <ul class="nav nav-pills flex-wrap gap-2 mt-3" id="staffTabs">
+                <li class="nav-item">
+                  <button type="button" class="nav-link active" data-tab="requestsTab">الطلبات</button>
+                </li>
+                <li class="nav-item">
+                  <button type="button" class="nav-link" data-tab="studentsTab">الطلاب</button>
+                </li>
+                <li class="nav-item">
+                  <button type="button" class="nav-link" data-tab="warningsTab">الإنذارات</button>
+                </li>
+                <li class="nav-item">
+                  <button type="button" class="nav-link" data-tab="settingsTab">الإعدادات</button>
+                </li>
+              </ul>
+
+              <div id="requestsTab" class="tab-pane-custom"></div>
+              <div id="studentsTab" class="tab-pane-custom d-none"></div>
+              <div id="warningsTab" class="tab-pane-custom d-none"></div>
+              <div id="settingsTab" class="tab-pane-custom d-none"></div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="row g-3 mb-4" id="dashboardStats"></div>
-
-      <ul class="nav nav-pills gap-2 mb-3" id="staffTabs">
-        <li class="nav-item"><button class="nav-link active" data-tab="requestsTab">الطلبات</button></li>
-        <li class="nav-item"><button class="nav-link" data-tab="studentsTab">الطلاب</button></li>
-        <li class="nav-item"><button class="nav-link" data-tab="warningsTab">الإنذارات</button></li>
-        <li class="nav-item"><button class="nav-link" data-tab="settingsTab">الإعدادات</button></li>
-      </ul>
-
-      <div id="requestsTab" class="tab-pane-custom"></div>
-      <div id="studentsTab" class="tab-pane-custom d-none"></div>
-      <div id="warningsTab" class="tab-pane-custom d-none"></div>
-      <div id="settingsTab" class="tab-pane-custom d-none"></div>
     </section>
   </main>
 
+  <div class="container">
+    <div class="footer-note">
+      جميع الحقوق محفوظة — نظام مجمع الحلق
+    </div>
+  </div>
+
+  <!-- مودال دخول العاملين -->
   <div class="modal fade" id="staffLoginModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-content border-0" style="border-radius:22px; overflow:hidden;">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="fa-solid fa-right-to-bracket ms-1"></i>
+            دخول العاملين
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
         <div class="modal-body p-4">
-          <div class="text-center mb-3">
-            <div class="login-icon mx-auto mb-3"><i class="fa-solid fa-user-shield"></i></div>
-            <h4 class="fw-bold">تسجيل دخول العاملين</h4>
-            <p class="text-muted mb-0">أدخل رمز الدخول المخصص لك</p>
-          </div>
           <form id="staffLoginForm">
-            <label class="form-label">رمز الدخول</label>
-            <input id="staffCode" class="form-control form-control-lg" type="password" required>
-            <div class="d-grid gap-2 mt-4">
-              <button class="btn btn-primary btn-lg">دخول</button>
-              <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+            <div class="mb-3">
+              <label class="form-label">رمز الدخول</label>
+              <input type="password" id="staffCode" class="form-control" placeholder="أدخل رمز الدخول" required>
             </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class="fa-solid fa-lock-open ms-1"></i>
+              تسجيل الدخول
+            </button>
           </form>
-          <div class="alert alert-warning mt-3 mb-0 small">بعد تشغيل setupSpreadsheet أول مرة سيكون رمز المدير الافتراضي: <strong>123456</strong> ويجب تغييره من الإعدادات.</div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="config.js"></script>
   <script src="app.js"></script>
+
+  <script>
+    document.getElementById('openStaffLoginBtn2')?.addEventListener('click', function () {
+      const btn = document.getElementById('openStaffLoginBtn');
+      if (btn) btn.click();
+    });
+  </script>
 </body>
 </html>
