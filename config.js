@@ -1,3 +1,9 @@
+// ============================================================================
+// إعدادات التطبيق
+// ============================================================================
+
 window.APP_CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbxYpZ4w17iMS5WiYw7-IafixDdyDXqXALkHGKxzJft1SERIRFWZwB55lBm4ZeRVNLoPsA/exec'
+  // ضع رابط Google Apps Script المنشور هنا
+  // مثال: https://script.google.com/macros/s/AKfycbx...../exec
+  API_URL: 'ضع-هنا-رابط-Google-Apps-Script'
 };

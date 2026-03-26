@@ -1,306 +1,327 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>نظام مجمع الحلق</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="نظام متكامل لإدارة مجمع حلقات تحفيظ القرآن الكريم">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <title>نظام مجمع النصار</title>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Bootstrap RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  
+  <!-- SweetAlert2 -->
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --primary:#0d6efd;
-      --primary-dark:#0b5ed7;
-      --soft:#f5f7fb;
-      --card:#ffffff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-      --success:#198754;
-      --warning:#ffc107;
-      --danger:#dc3545;
+    :root {
+      --primary: #0d6efd;
+      --primary-dark: #0b5ed7;
+      --soft: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --success: #198754;
+      --warning: #ffc107;
+      --danger: #dc3545;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Cairo", sans-serif;
-      background:linear-gradient(180deg,#f8fbff 0%, #f3f6fb 100%);
-      color:var(--text);
+    * {
+      box-sizing: border-box;
     }
 
-    .navbar-brand{
-      font-weight:800;
-      letter-spacing:.2px;
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
 
-    .hero{
-      padding:48px 0 28px;
-      background:
-        radial-gradient(circle at top right, rgba(13,110,253,.12), transparent 28%),
-        radial-gradient(circle at top left, rgba(25,135,84,.10), transparent 24%);
+    body {
+      font-family: "Cairo", sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, #f3f6fb 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hero {
+      padding: 48px 0 28px;
+      background: 
+        radial-gradient(circle at top right, rgba(13, 110, 253, 0.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(25, 135, 84, 0.10), transparent 24%);
     }
 
     .hero-card,
     .panel-card,
     .table-card,
-    .kpi-card{
-      background:var(--card);
-      border:1px solid rgba(0,0,0,.05);
-      border-radius:20px;
-      box-shadow:0 12px 32px rgba(15,23,42,.06);
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
     }
 
-    .hero-card{
-      padding:28px;
-      overflow:hidden;
-      position:relative;
+    .hero-card {
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
     }
 
-    .hero-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(13,110,253,.08);
-      color:var(--primary-dark);
-      font-size:.9rem;
-      font-weight:700;
-      margin-bottom:16px;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(13, 110, 253, 0.08);
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 16px;
     }
 
-    .hero-title{
-      font-size:2rem;
-      font-weight:800;
-      margin-bottom:12px;
-      line-height:1.5;
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.5;
     }
 
-    .hero-desc{
-      color:var(--muted);
-      line-height:1.9;
-      margin-bottom:22px;
+    .hero-desc {
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 22px;
     }
 
-    .hero-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .quick-card{
-      height:100%;
-      padding:20px;
-      border-radius:18px;
-      background:#fff;
-      border:1px solid rgba(0,0,0,.05);
-      box-shadow:0 10px 24px rgba(15,23,42,.05);
-      transition:.2s ease;
+    .quick-card {
+      height: 100%;
+      padding: 20px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+      transition: 0.2s ease;
     }
 
-    .quick-card:hover{
-      transform:translateY(-2px);
+    .quick-card:hover {
+      transform: translateY(-2px);
     }
 
-    .quick-icon{
-      width:52px;
-      height:52px;
-      border-radius:16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.2rem;
-      background:rgba(13,110,253,.08);
-      color:var(--primary);
-      margin-bottom:14px;
+    .quick-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: rgba(13, 110, 253, 0.08);
+      color: var(--primary);
+      margin-bottom: 14px;
     }
 
-    .section-space{
-      padding:22px 0 42px;
+    .section-space {
+      padding: 22px 0 42px;
     }
 
-    .section-title{
-      font-size:1.35rem;
-      font-weight:800;
-      margin-bottom:18px;
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 18px;
     }
 
-    .panel-card{
-      padding:22px;
+    .panel-card {
+      padding: 22px;
     }
 
-    .table-card{
-      padding:20px;
+    .table-card {
+      padding: 20px;
     }
 
-    .form-label{
-      font-weight:700;
-      margin-bottom:8px;
+    .form-label {
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
     .form-control,
-    .form-select{
-      min-height:48px;
-      border-radius:14px;
-      border:1px solid #d7deea;
+    .form-select {
+      min-height: 48px;
+      border-radius: 14px;
+      border: 1px solid #d7deea;
     }
 
     .form-control:focus,
-    .form-select:focus{
-      box-shadow:0 0 0 .2rem rgba(13,110,253,.12);
-      border-color:#86b7fe;
+    .form-select:focus {
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+      border-color: #86b7fe;
     }
 
-    textarea.form-control{
-      min-height:110px;
+    textarea.form-control {
+      min-height: 110px;
     }
 
-    .small-muted{
-      color:var(--muted);
-      font-size:.92rem;
+    .small-muted {
+      color: var(--muted);
+      font-size: 0.92rem;
     }
 
-    .data-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:14px;
-      margin-top:8px;
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
     }
 
-    .data-item{
-      background:#f8fafc;
-      border:1px solid #e5e7eb;
-      border-radius:16px;
-      padding:14px;
+    .data-item {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 14px;
     }
 
-    .data-item .label{
-      font-size:.85rem;
-      color:var(--muted);
-      margin-bottom:6px;
-      font-weight:700;
+    .data-item .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
     }
 
-    .data-item .value{
-      font-size:1rem;
-      font-weight:700;
-      color:var(--text);
-      word-break:break-word;
+    .data-item .value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
     }
 
-    .kpi-card{
-      padding:20px;
-      position:relative;
-      overflow:hidden;
-      min-height:132px;
+    .kpi-card {
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      min-height: 132px;
     }
 
-    .bg-icon-float{
-      position:absolute;
-      left:18px;
-      top:14px;
-      opacity:.08;
-      font-size:3rem;
-      line-height:1;
+    .bg-icon-float {
+      position: absolute;
+      left: 18px;
+      top: 14px;
+      opacity: 0.08;
+      font-size: 3rem;
+      line-height: 1;
     }
 
-    .kpi-label{
-      color:var(--muted);
-      font-weight:700;
-      margin-bottom:10px;
+    .kpi-label {
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .kpi-value{
-      font-size:2rem;
-      font-weight:800;
-      line-height:1.2;
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.2;
     }
 
-    .staff-shell{
-      background:#fff;
-      border-radius:22px;
-      border:1px solid rgba(0,0,0,.05);
-      box-shadow:0 16px 34px rgba(15,23,42,.06);
-      overflow:hidden;
+    .staff-shell {
+      background: #fff;
+      border-radius: 22px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
     }
 
-    .staff-head{
-      padding:22px;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(90deg, rgba(13,110,253,.06), rgba(25,135,84,.04));
+    .staff-head {
+      padding: 22px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(13, 110, 253, 0.06), rgba(25, 135, 84, 0.04));
     }
 
-    .staff-body{
-      padding:22px;
+    .staff-body {
+      padding: 22px;
     }
 
-    .nav-pills .nav-link{
-      border-radius:14px;
-      font-weight:700;
-      color:#334155;
-      padding:.8rem 1rem;
+    .nav-pills .nav-link {
+      border-radius: 14px;
+      font-weight: 700;
+      color: #334155;
+      padding: 0.8rem 1rem;
     }
 
-    .nav-pills .nav-link.active{
-      background:var(--primary);
+    .nav-pills .nav-link.active {
+      background: var(--primary);
     }
 
-    .tab-pane-custom{
-      margin-top:20px;
+    .tab-pane-custom {
+      margin-top: 20px;
     }
 
-    .table thead th{
-      white-space:nowrap;
-      font-weight:800;
-      font-size:.92rem;
-      background:#f8fafc;
+    .table thead th {
+      white-space: nowrap;
+      font-weight: 800;
+      font-size: 0.92rem;
+      background: #f8fafc;
     }
 
-    .table td, .table th{
-      vertical-align:middle;
+    .table td, .table th {
+      vertical-align: middle;
     }
 
-    .footer-note{
-      color:var(--muted);
-      font-size:.9rem;
-      text-align:center;
-      padding:22px 0 30px;
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 22px 0 30px;
     }
 
-    .btn{
-      border-radius:14px;
-      font-weight:700;
-      min-height:44px;
+    .btn {
+      border-radius: 14px;
+      font-weight: 700;
+      min-height: 44px;
     }
 
-    .btn-lg{
-      min-height:50px;
-      padding-inline:18px;
+    .btn-lg {
+      min-height: 50px;
+      padding-inline: 18px;
     }
 
-    .view-section.d-none{
-      display:none !important;
+    .view-section.d-none {
+      display: none !important;
     }
 
-    @media (max-width: 767.98px){
-      .hero-title{
-        font-size:1.55rem;
+    @media (max-width: 767.98px) {
+      .hero-title {
+        font-size: 1.55rem;
       }
-      .hero-card{
-        padding:22px;
+      .hero-card {
+        padding: 22px;
       }
       .staff-head,
       .staff-body,
       .panel-card,
-      .table-card{
-        padding:16px;
+      .table-card {
+        padding: 16px;
       }
     }
   </style>
@@ -311,7 +332,7 @@
     <div class="container">
       <a class="navbar-brand" href="#/home">
         <i class="fa-solid fa-book-quran text-primary ms-2"></i>
-        نظام مجمع الحلق
+        نظام مجمع النصار
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
@@ -387,48 +408,24 @@
                     <div class="quick-card">
                       <div class="quick-icon"><i class="fa-solid fa-inbox"></i></div>
                       <h5 class="fw-bold">استقبال الطلبات</h5>
-                      <div class="small-muted">تسجيل الطلاب الجدد ومتابعة طلباتهم ومراجعتها واعتمادها.</div>
+                      <div class="small-muted">تسجيل الطلاب الجدد بسهولة</div>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-12">
                     <div class="quick-card">
-                      <div class="quick-icon"><i class="fa-solid fa-user-graduate"></i></div>
-                      <h6 class="fw-bold">بيانات الطلاب</h6>
-                      <div class="small-muted">عرض البيانات وطلب التعديل.</div>
+                      <div class="quick-icon"><i class="fa-solid fa-database"></i></div>
+                      <h5 class="fw-bold">إدارة البيانات</h5>
+                      <div class="small-muted">متابعة بيانات الطلاب والعاملين</div>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-12">
                     <div class="quick-card">
                       <div class="quick-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                      <h6 class="fw-bold">الإنذارات</h6>
-                      <div class="small-muted">تعليمية وإدارية مع متابعة الحالة.</div>
+                      <h5 class="fw-bold">نظام الإنذارات</h5>
+                      <div class="small-muted">متابعة الإنذارات التعليمية والإدارية</div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row g-3 mt-1">
-            <div class="col-md-4">
-              <div class="quick-card h-100">
-                <div class="quick-icon"><i class="fa-solid fa-user-plus"></i></div>
-                <h5 class="fw-bold">بوابة التسجيل والقبول</h5>
-                <p class="small-muted mb-0">تسجيل الطالب وبيانات ولي الأمر وإرسال الطلب للإدارة للمراجعة والاعتماد.</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="quick-card h-100">
-                <div class="quick-icon"><i class="fa-solid fa-address-card"></i></div>
-                <h5 class="fw-bold">بوابة بيانات الطالب</h5>
-                <p class="small-muted mb-0">الاستعلام عن بيانات الطالب باستخدام رقم الهوية ورفع طلب تعديل عند الحاجة.</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="quick-card h-100">
-                <div class="quick-icon"><i class="fa-solid fa-users-gear"></i></div>
-                <h5 class="fw-bold">بوابة العاملين</h5>
-                <p class="small-muted mb-0">لوحة تحكم للإدارة والمشرفين والمعلمين حسب الصلاحيات الممنوحة لكل مستخدم.</p>
               </div>
             </div>
           </div>
@@ -436,126 +433,77 @@
       </div>
     </section>
 
-    <!-- تسجيل طالب -->
+    <!-- نموذج التسجيل -->
     <section id="registerView" class="view-section d-none">
       <div class="section-space">
         <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-xl-10">
-              <div class="panel-card">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
-                  <div>
-                    <h2 class="section-title mb-1">تسجيل طالب جديد</h2>
-                    <div class="small-muted">يرجى تعبئة البيانات بدقة، وسيتم إرسال الطلب للإدارة للمراجعة.</div>
-                  </div>
+          <div class="panel-card">
+            <h2 class="section-title">تسجيل طالب جديد</h2>
+            <form id="registrationForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">اسم الطالب ثلاثي *</label>
+                  <input type="text" class="form-control" name="اسم الطالب ثلاثي" required>
                 </div>
-
-                <form id="registrationForm" class="row g-3">
-                  <div class="col-12">
-                    <h5 class="fw-bold mb-2">بيانات الطالب</h5>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">اسم الطالب ثلاثي</label>
-                    <input type="text" name="studentName" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">هوية الطالب</label>
-                    <input type="text" name="studentId" class="form-control" inputmode="numeric" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">رقم جوال الطالب</label>
-                    <input type="text" name="studentPhone" class="form-control" inputmode="numeric">
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">تاريخ ميلاد الطالب</label>
-                    <input type="date" name="studentBirthDate" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">العنوان / الحي</label>
-                    <input type="text" name="studentAddress" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-3">
-                    <label class="form-label">المرحلة الدراسية</label>
-                    <select name="studentLevel" class="form-select" required>
-                      <option value="">اختر المرحلة</option>
-                      <option>ابتدائي</option>
-                      <option>متوسط</option>
-                      <option>ثانوي</option>
-                      <option>جامعي</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-3">
-                    <label class="form-label">الصف الدراسي</label>
-                    <select name="studentGrade" class="form-select" required>
-                      <option value="">اختر الصف</option>
-                      <option>الأول</option>
-                      <option>الثاني</option>
-                      <option>الثالث</option>
-                      <option>الرابع</option>
-                      <option>الخامس</option>
-                      <option>السادس</option>
-                      <option>الأول متوسط</option>
-                      <option>الثاني متوسط</option>
-                      <option>الثالث متوسط</option>
-                      <option>الأول ثانوي</option>
-                      <option>الثاني ثانوي</option>
-                      <option>الثالث ثانوي</option>
-                      <option>جامعي</option>
-                    </select>
-                  </div>
-
-                  <div class="col-12 mt-4">
-                    <h5 class="fw-bold mb-2">بيانات ولي الأمر</h5>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">اسم ولي الأمر ثلاثي</label>
-                    <input type="text" name="guardianName" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">رقم جوال ولي الأمر</label>
-                    <input type="text" name="guardianPhone" class="form-control" inputmode="numeric" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">رقم هوية ولي الأمر</label>
-                    <input type="text" name="guardianId" class="form-control" inputmode="numeric" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">صلة ولي الأمر</label>
-                    <select name="guardianRelation" class="form-select" required>
-                      <option value="">اختر الصلة</option>
-                      <option>أب</option>
-                      <option>أخ</option>
-                      <option>عم</option>
-                      <option>خال</option>
-                      <option>غير ذلك</option>
-                    </select>
-                  </div>
-
-                  <div class="col-12">
-                    <label class="form-label">ملاحظات إضافية</label>
-                    <textarea name="notes" class="form-control" placeholder="أي ملاحظات إضافية إن وجدت"></textarea>
-                  </div>
-
-                  <div class="col-12 pt-2">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                      <i class="fa-solid fa-paper-plane ms-1"></i>
-                      إرسال الطلب
-                    </button>
-                  </div>
-                </form>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">رقم الهوية *</label>
+                  <input type="text" class="form-control" name="هوية الطالب" required pattern="\d{8,12}">
+                </div>
               </div>
-            </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">رقم جوال الطالب</label>
+                  <input type="text" class="form-control" name="رقم جوال الطالب" pattern="\d{10}">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">تاريخ الميلاد *</label>
+                  <input type="date" class="form-control" name="تاريخ ميلاد الطالب" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">العنوان/الحي *</label>
+                  <input type="text" class="form-control" name="العنوان / الحي" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">المرحلة الدراسية *</label>
+                  <select class="form-select" name="المرحلة الدراسية" required></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">الصف الدراسي *</label>
+                  <select class="form-select" name="الصف الدراسي" required></select>
+                </div>
+              </div>
+
+              <h5 class="mt-4 mb-3">بيانات ولي الأمر</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">اسم ولي الأمر ثلاثي *</label>
+                  <input type="text" class="form-control" name="اسم ولي الأمر ثلاثي" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">رقم جوال ولي الأمر *</label>
+                  <input type="text" class="form-control" name="رقم جوال ولي الأمر" required pattern="\d{10}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">رقم هوية ولي الأمر *</label>
+                  <input type="text" class="form-control" name="رقم هوية ولي الأمر" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">صلة ولي الأمر *</label>
+                  <select class="form-select" name="صلة ولي الأمر" required></select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg mt-3">
+                <i class="fa-solid fa-paper-plane ms-1"></i>
+                إرسال الطلب
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -565,28 +513,25 @@
     <section id="studentDataView" class="view-section d-none">
       <div class="section-space">
         <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-xl-9">
-              <div class="panel-card mb-3">
-                <h2 class="section-title mb-1">بوابة بيانات الطالب</h2>
-                <div class="small-muted mb-4">أدخل رقم هوية الطالب لاستعراض البيانات الأساسية.</div>
-
-                <form id="studentLookupForm" class="row g-3 align-items-end">
-                  <div class="col-md-9">
-                    <label class="form-label">هوية الطالب</label>
-                    <input type="text" name="studentId" class="form-control" inputmode="numeric" placeholder="أدخل رقم الهوية" required>
-                  </div>
-                  <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">
-                      <i class="fa-solid fa-magnifying-glass ms-1"></i>
-                      استعراض البيانات
-                    </button>
-                  </div>
-                </form>
+          <div class="panel-card">
+            <h2 class="section-title">بيانات الطالب</h2>
+            <form id="studentLookupForm" class="mb-4">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">رقم الهوية</label>
+                  <input type="text" class="form-control" name="هوية الطالب" placeholder="أدخل رقم الهوية">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">أو رقم جوال ولي الأمر</label>
+                  <input type="text" class="form-control" name="رقم جوال ولي الأمر" placeholder="أدخل رقم الجوال">
+                </div>
               </div>
-
-              <div id="studentResult"></div>
-            </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-search ms-1"></i>
+                بحث
+              </button>
+            </form>
+            <div id="studentResult"></div>
           </div>
         </div>
       </div>
@@ -598,89 +543,73 @@
         <div class="container">
           <div class="staff-shell">
             <div class="staff-head">
-              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div>
-                  <h2 class="section-title mb-1">بوابة العاملين</h2>
-                  <div class="small-muted" id="staffWelcome">مرحبًا</div>
-                </div>
-                <div class="small-muted">
-                  لوحة تحكم حسب الصلاحيات
-                </div>
-              </div>
+              <h2 id="staffWelcome" class="mb-0">مرحباً</h2>
             </div>
-
             <div class="staff-body">
-              <div class="row g-3 mb-2" id="dashboardStats"></div>
-
-              <ul class="nav nav-pills flex-wrap gap-2 mt-3" id="staffTabs">
-                <li class="nav-item">
-                  <button type="button" class="nav-link active" data-tab="requestsTab">الطلبات</button>
+              <div id="dashboardStats" class="row g-3 mb-4"></div>
+              <ul class="nav nav-pills mb-3" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="requestsTabBtn" data-bs-toggle="tab" data-bs-target="#requestsTab" type="button">الطلبات</button>
                 </li>
-                <li class="nav-item">
-                  <button type="button" class="nav-link" data-tab="studentsTab">الطلاب</button>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="studentsTabBtn" data-bs-toggle="tab" data-bs-target="#studentsTab" type="button">الطلاب</button>
                 </li>
-                <li class="nav-item">
-                  <button type="button" class="nav-link" data-tab="warningsTab">الإنذارات</button>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="warningsTabBtn" data-bs-toggle="tab" data-bs-target="#warningsTab" type="button">الإنذارات</button>
                 </li>
-                <li class="nav-item">
-                  <button type="button" class="nav-link" data-tab="settingsTab">الإعدادات</button>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="settingsTabBtn" data-bs-toggle="tab" data-bs-target="#settingsTab" type="button">الإعدادات</button>
                 </li>
               </ul>
-
-              <div id="requestsTab" class="tab-pane-custom"></div>
-              <div id="studentsTab" class="tab-pane-custom d-none"></div>
-              <div id="warningsTab" class="tab-pane-custom d-none"></div>
-              <div id="settingsTab" class="tab-pane-custom d-none"></div>
+              <div class="tab-content">
+                <div id="requestsTab" class="tab-pane fade show active"></div>
+                <div id="studentsTab" class="tab-pane fade"></div>
+                <div id="warningsTab" class="tab-pane fade"></div>
+                <div id="settingsTab" class="tab-pane fade"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <div class="footer-note">
+      <p>© 2026 نظام مجمع النصار - جميع الحقوق محفوظة</p>
+    </div>
   </main>
 
-  <div class="container">
-    <div class="footer-note">
-      جميع الحقوق محفوظة — نظام مجمع الحلق
-    </div>
-  </div>
-
-  <!-- مودال دخول العاملين -->
-  <div class="modal fade" id="staffLoginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0" style="border-radius:22px; overflow:hidden;">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title fw-bold">
-            <i class="fa-solid fa-right-to-bracket ms-1"></i>
-            دخول العاملين
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+  <!-- Modal: Staff Login -->
+  <div class="modal fade" id="staffLoginModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">دخول العاملين</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body p-4">
-          <form id="staffLoginForm">
+        <form id="staffLoginForm">
+          <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">رمز الدخول</label>
-              <input type="password" id="staffCode" class="form-control" placeholder="أدخل رمز الدخول" required>
+              <input type="password" class="form-control" id="staffCode" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">
-              <i class="fa-solid fa-lock-open ms-1"></i>
-              تسجيل الدخول
-            </button>
-          </form>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="submit" class="btn btn-primary">دخول</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
-  <script src="config.js"></script>
+  <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Main App Script -->
   <script src="app.js"></script>
 
-  <script>
-    document.getElementById('openStaffLoginBtn2')?.addEventListener('click', function () {
-      const btn = document.getElementById('openStaffLoginBtn');
-      if (btn) btn.click();
-    });
-  </script>
 </body>
 </html>
